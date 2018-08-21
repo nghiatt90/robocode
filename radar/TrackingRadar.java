@@ -18,7 +18,7 @@ public class TrackingRadar extends BaseRadar {
 	}
 	
 	@Override
-	public void doScan() {
+	public void onTick() {
 		double radarOffset;
 		radarOffset = PI * 2;
         if (_robot.getTime() - _target.ctime > 4) {
@@ -41,4 +41,7 @@ public class TrackingRadar extends BaseRadar {
             _robot.setTurnRadarRightRadians(1.9 * Utils.normalRelativeAngle(radarOffset));
         }
 	}
+	
+	public void onScannedRobot(ScannedRobotEvent e) { }
+	public void onRobotDeath(RobotDeathEvent e) { }
 }

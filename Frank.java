@@ -4,18 +4,12 @@ package unnamed;
 import robocode.*;
 
 import java.awt.Color;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 import unnamed.*;
-import unnamed.gun.BaseGun;
-import unnamed.gun.CircularGun;
-import unnamed.gun.LinearGun;
-import unnamed.gun.PatternGun;
-import unnamed.radar.BaseRadar;
-import unnamed.radar.TrackingRadar;
-import unnamed.movement.BaseMovement;
+import unnamed.gun.*;
+import unnamed.radar.*;
+import unnamed.movement.*;
 
 
 // API help : http://robocode.sourceforge.net/docs/robocode/robocode/Robot.html
@@ -33,7 +27,7 @@ public class Frank extends AdvancedRobot
 	protected static BaseMovement _movement;
 	protected static BaseRadar _radar;
 	
-	protected static HashMap<String, Queue<EnemyHistory>> _patterns;
+	// protected static HashMap<String, Queue<EnemyHistory>> _patterns;
 	
 	/**
 	 * run: Frank's default behavior
@@ -54,14 +48,14 @@ public class Frank extends AdvancedRobot
 		// Generic behavior: move, scan, turn the gun, fire
         while(true) {
 //			_movement.doMove();
-			_gun.shotToKill(target);
-			_radar.doScan();
+			// _gun.shotToKill(target);
+			_radar.onTick();
 			execute();  // Execute all commands
 			
-			if (!isGunSwitched && getTime() > 500) {
+			/*if (!isGunSwitched && getTime() > 500) {
 				_gun = new PatternGun(this, _patterns);
 				isGunSwitched = true;
-			}
+			}*/
         }
 	}
 	
@@ -72,50 +66,15 @@ public class Frank extends AdvancedRobot
         
         isGunSwitched = false;
         
-        _patterns = new HashMap<>();
+        // _patterns = new HashMap<>();
         
-        _gun = new CircularGun(this);
+        _gun = new LinearGun(this);
 //        _movement = new SittingDuck(this);
-        _radar = new TrackingRadar(this, target);
+        _radar = new MeleeRadar(this);
 	}
 	
 	public void onScannedRobot(ScannedRobotEvent e) {
-		String name = e.getName();
-		double bearing = e.getBearingRadians();
-        double heading = e.getHeadingRadians();
-		
-		if (!_patterns.containsKey(name)) {
-			_patterns.put(name, new LinkedList<EnemyHistory>() {
-				public boolean add(EnemyHistory object) {
-	                boolean result;
-	                if(this.size() < 500)
-	                    result = super.add(object);
-	                else
-	                {
-	                    super.removeFirst();
-	                    result = super.add(object);
-	                }
-	                return result;
-	            }
-			});
-		}
-		_patterns.get(name).add(new EnemyHistory(name, bearing, heading));
-		
-		if ((e.getDistance() < target.distance) || (target.name.equals(name))) {
-            //the next line gets the absolute bearing to the point where the bot is
-            double absbearing_rad = (getHeadingRadians()+e.getBearingRadians())%(2*PI);
-            //this section sets all the information about our target
-            target.name = name;
-            target.x = getX()+Math.sin(absbearing_rad)*e.getDistance(); //works out the x coordinate of where the target is
-            target.y = getY()+Math.cos(absbearing_rad)*e.getDistance(); //works out the y coordinate of where the target is
-            target.lastHeading = target.heading;
-            target.lastBearing = target.bearing;
-            target.bearing = e.getBearingRadians();
-            target.heading = e.getHeadingRadians();
-            target.ctime = getTime();				//game time at which this scan was produced
-            target.speed = e.getVelocity();
-            target.distance = e.getDistance();
-		}
+		_radar.onScannedRobot(e);
 	}
 	
 	public void onRobotDeath(RobotDeathEvent e) {

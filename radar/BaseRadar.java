@@ -11,5 +11,7 @@ public abstract class BaseRadar {
 		_robot = robot;
 	}
 	
-	public abstract void doScan();
+	public abstract void onTick();
+	public abstract void onScannedRobot(ScannedRobotEvent e);
+	public abstract void onRobotDeath(RobotDeathEvent e);
 }

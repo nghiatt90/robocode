@@ -1,31 +1,29 @@
 package unnamed.gun;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.HashMap;
+import java.util.Queue;
 
 import robocode.AdvancedRobot;
 import unnamed.Enemy;
+import unnamed.EnemyHistory;
 
 public class PatternGun extends BaseGun {
 
-	private LinkedHashMap<Integer, Enemy> _patterns;
+	protected static HashMap<String, Queue<EnemyHistory>> _patterns;
 	
-	public PatternGun(AdvancedRobot robot) {
+	public PatternGun(AdvancedRobot robot, HashMap<String, Queue<EnemyHistory>> patterns) {
 		super(robot);
-		_patterns = new LinkedHashMap<Integer, Enemy>() {
-			 @Override
-		     protected boolean removeEldestEntry(Map.Entry<Integer, Enemy> eldest)
-		     {
-		        return this.size() > 10;
-		     }
-		};
+		_patterns = patterns;
 	}
 
 	@Override
 	public void takeAim(Enemy e, double power) {
-		// TODO Auto-generated method stub
-
+		EnemyHistory[] history = (EnemyHistory[]) _patterns.get(e.name).toArray();
+		int size = history.length;
+		
+		for (int i = 0; i < size; ++i) {
+			
+		}
 	}
 
 	@Override

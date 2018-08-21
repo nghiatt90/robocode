@@ -5,7 +5,11 @@ import robocode.*;
 
 
 public abstract class BaseMovement {
-	public BaseMovement() {}
+	private AdvancedRobot _robot;
+	
+	public BaseMovement(AdvancedRobot robot) {
+		_robot = robot;
+	}
 	
 	abstract public void doMove();
 }

@@ -50,7 +50,8 @@ public class MeleeRadar extends BaseRadar {
         enemyInfo.speed = e.getVelocity();
         enemyInfo.bearing = _robot.getHeadingRadians() + e.getBearingRadians();
         enemyInfo.heading = e.getHeadingRadians();
-        enemyInfo.direction = GeometryUtils.sign(enemyInfo.speed * FastTrig.sin(enemyInfo.heading - enemyInfo.bearing));
+        if (enemyInfo.speed != 0)
+            enemyInfo.direction = GeometryUtils.sign(enemyInfo.speed * FastTrig.sin(enemyInfo.heading - enemyInfo.bearing));
         enemyInfo.distance = e.getDistance();
         enemyInfo.location = GeometryUtils.project(_myLocation, enemyInfo.bearing, enemyInfo.distance);
         

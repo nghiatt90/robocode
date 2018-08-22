@@ -7,7 +7,8 @@ import java.awt.geom.*;
 public class Enemy {
 	public String name;
 	public double bearing;
-	public double heading;	// enemy heading
+	public double heading;
+    public int direction;  // 1 or -1
 	public int ctime;      // game time that the scan was produced
 	public double speed;
 	public Point2D.Double location = new Point2D.Double();
@@ -21,6 +22,7 @@ public class Enemy {
         }
         lastState.bearing = bearing;
         lastState.heading = heading;
+        lastState.direction = direction;
         lastState.ctime = ctime;
         lastState.speed = speed;
         lastState.location = location;

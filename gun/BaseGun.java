@@ -13,12 +13,5 @@ public abstract class BaseGun {
 		_robot = robot;
 	}
 	
-	abstract public void takeAim(Enemy e, double power);
-	abstract public double calculatePower(Enemy e);
-	
-	public void shotToKill(Enemy target) {
-		double power = calculatePower(target);
-		takeAim(target, power);
-		_robot.setFire(power);
-	}
+	abstract public void onScannedRobot(ScannedRobotEvent e);
 }

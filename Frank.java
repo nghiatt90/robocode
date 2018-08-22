@@ -28,7 +28,7 @@ public class Frank extends AdvancedRobot
 	protected static BaseRadar _radar;
 	
 	public Frank() {
-		_gun = new LinearGun(this);
+		_gun = new GuessFactorGun(this);
 //        _movement = new SittingDuck(this);
         _radar = new MeleeRadar(this);
 	}
@@ -52,7 +52,6 @@ public class Frank extends AdvancedRobot
 		// Generic behavior: move, scan, turn the gun, fire
         while(true) {
 //			_movement.doMove();
-			// _gun.shotToKill(target);
 			_radar.onTick();
 			execute();  // Execute all commands
 			
@@ -73,6 +72,7 @@ public class Frank extends AdvancedRobot
 	
 	public void onScannedRobot(ScannedRobotEvent e) {
 		_radar.onScannedRobot(e);
+        _gun.onScannedRobot(e);
 	}
 	
 	public void onRobotDeath(RobotDeathEvent e) {

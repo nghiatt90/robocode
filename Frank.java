@@ -29,7 +29,7 @@ public class Frank extends AdvancedRobot
 	
 	public Frank() {
 		_gun = new GuessFactorGun(this);
-//        _movement = new SittingDuck(this);
+        _movement = new AristoclesMovement(this);
         _radar = new MeleeRadar(this);
 	}
 	
@@ -73,6 +73,7 @@ public class Frank extends AdvancedRobot
 	public void onScannedRobot(ScannedRobotEvent e) {
 		_radar.onScannedRobot(e);
         _gun.onScannedRobot(e);
+        _movement.onScannedRobot(e);
 	}
 	
 	public void onRobotDeath(RobotDeathEvent e) {

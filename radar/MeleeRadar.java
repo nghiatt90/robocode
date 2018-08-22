@@ -7,7 +7,7 @@ import java.awt.geom.*;
 import robocode.*;
 import robocode.util.*;
 
-import unnamed.Enemy;
+import unnamed.*;
 import unnamed.utils.*;
 
 /*
@@ -15,12 +15,12 @@ import unnamed.utils.*;
  */
 public class MeleeRadar extends BaseRadar {
 	
-	private Hashtable<String, Enemy> _enemies = new Hashtable<String, Enemy>();
     private Point2D.Double _myLocation;
+	private Memory _memory;
 	
-    public MeleeRadar(AdvancedRobot robot) {
+    public MeleeRadar(AdvancedRobot robot, Memory memory) {
         super(robot);
-        _enemies.clear();
+		_memory = memory;
     }
 	
 	/*
@@ -41,9 +41,9 @@ public class MeleeRadar extends BaseRadar {
 	public void onScannedRobot(ScannedRobotEvent e) {   
         String enemyName = e.getName();
                             
-        Enemy enemyInfo = _enemies.get(enemyName);
+        Enemy enemyInfo = _memory.enemies.get(enemyName);
         if (enemyInfo == null) {
-            _enemies.put(enemyName, enemyInfo = new Enemy());
+            _memory.enemies.put(enemyName, enemyInfo = new Enemy());
             enemyInfo.name = enemyName;
         }
         
@@ -51,8 +51,8 @@ public class MeleeRadar extends BaseRadar {
         double absoluteBearing  = _robot.getHeadingRadians() + e.getBearingRadians();
         enemyInfo.location = GeometryUtils.project(_myLocation, absoluteBearing, e.getDistance());
             
-        if (_robot.getOthers() <= _enemies.size()) {
-            Enumeration<Enemy> all = _enemies.elements();
+        if (_robot.getOthers() <= _memory.enemies.size()) {
+            Enumeration<Enemy> all = _memory.enemies.elements();
             int oldestScan = enemyInfo.ctime;
             while (all.hasMoreElements()) {
                 Enemy tmp = all.nextElement();
@@ -79,6 +79,6 @@ public class MeleeRadar extends BaseRadar {
 	
 	@Override
 	public void onRobotDeath(RobotDeathEvent e){
-        _enemies.remove(e.getName());
+        _memory.enemies.remove(e.getName());
     }
 }

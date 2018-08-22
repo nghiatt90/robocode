@@ -26,8 +26,14 @@ public class Frank extends AdvancedRobot
 	protected static BaseGun _gun;
 	protected static BaseMovement _movement;
 	protected static BaseRadar _radar;
+	protected static Memory _memory;
 	
-	// protected static HashMap<String, Queue<EnemyHistory>> _patterns;
+	public Frank() {
+		_memory = new Memory();
+		_gun = new LinearGun(this);
+//        _movement = new SittingDuck(this);
+        _radar = new MeleeRadar(this, _memory);
+	}
 	
 	/**
 	 * run: Frank's default behavior
@@ -65,12 +71,6 @@ public class Frank extends AdvancedRobot
         setAdjustRadarForGunTurn(true);
         
         isGunSwitched = false;
-        
-        // _patterns = new HashMap<>();
-        
-        _gun = new LinearGun(this);
-//        _movement = new SittingDuck(this);
-        _radar = new MeleeRadar(this);
 	}
 	
 	public void onScannedRobot(ScannedRobotEvent e) {

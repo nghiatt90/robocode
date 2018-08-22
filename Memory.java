@@ -7,10 +7,5 @@ import unnamed.*;
 
 
 public class Memory {
-	
-	public Hashtable<String, Enemy> enemies = new Hashtable<String, Enemy>();
-	
-	public Memory() {
-		enemies.clear();
-	}
+	public static Hashtable<String, Enemy> enemies = new Hashtable<String, Enemy>();
 }

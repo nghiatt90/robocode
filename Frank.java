@@ -26,13 +26,11 @@ public class Frank extends AdvancedRobot
 	protected static BaseGun _gun;
 	protected static BaseMovement _movement;
 	protected static BaseRadar _radar;
-	protected static Memory _memory;
 	
 	public Frank() {
-		_memory = new Memory();
 		_gun = new LinearGun(this);
 //        _movement = new SittingDuck(this);
-        _radar = new MeleeRadar(this, _memory);
+        _radar = new MeleeRadar(this);
 	}
 	
 	/**

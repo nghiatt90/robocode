@@ -61,4 +61,10 @@ public class AristoclesMovement extends BaseMovement {
 		_robot.setAhead(FastTrig.cos(angle) * 100);
 		_robot.setTurnRightRadians(FastTrig.tan(angle));
 	}
+
+	@Override
+	public void onTick() {
+		// TODO Auto-generated method stub
+		
+	}
 }

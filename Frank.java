@@ -29,7 +29,7 @@ public class Frank extends AdvancedRobot
 	
 	public Frank() {
 		_gun = new GuessFactorGun(this);
-        _movement = new AristoclesMovement(this);
+        _movement = new WallMovement(this);
         _radar = new MeleeRadar(this);
 	}
 	
@@ -47,18 +47,15 @@ public class Frank extends AdvancedRobot
         initRound();
         
         // Get the first view of the battle field
-        turnRadarRightRadians(2*PI);
+        // turnRadarRightRadians(2*PI);
+        
+        turnLeft(getHeading() % 90);
 		
 		// Generic behavior: move, scan, turn the gun, fire
         while(true) {
-//			_movement.doMove();
+			_movement.onTick();
 			_radar.onTick();
 			execute();  // Execute all commands
-			
-			/*if (!isGunSwitched && getTime() > 500) {
-				_gun = new PatternGun(this, _patterns);
-				isGunSwitched = true;
-			}*/
         }
 	}
 	

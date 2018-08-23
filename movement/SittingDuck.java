@@ -9,9 +9,9 @@ public class SittingDuck extends BaseMovement {
 	public SittingDuck(AdvancedRobot robot) {
 		super(robot);
 	}
-	
+
 	@Override
-	public void doMove() {
-		// do nothing
+	public void onScannedRobot(ScannedRobotEvent e) {
+		// Do nothing
 	}
 }

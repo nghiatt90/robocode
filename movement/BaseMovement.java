@@ -11,5 +11,6 @@ public abstract class BaseMovement {
 		_robot = robot;
 	}
 	
+	abstract public void onTick();
 	abstract public void onScannedRobot(ScannedRobotEvent e);
 }

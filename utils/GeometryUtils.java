@@ -9,7 +9,7 @@ import java.awt.geom.*;
  */
 public class GeometryUtils {
 	
-	public static final Point2D.Double project(Point2D.Double location, double angle, double distance){
+	public static final Point2D.Double project(Point2D.Double location, double angle, double distance) {
         return new Point2D.Double(location.x + distance*FastTrig.sin(angle), location.y + distance*FastTrig.cos(angle));
     }
 	

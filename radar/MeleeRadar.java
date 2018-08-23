@@ -15,8 +15,6 @@ import unnamed.utils.*;
  */
 public class MeleeRadar extends BaseRadar {
     
-    private Point2D.Double _myLocation;
-    
     public MeleeRadar(AdvancedRobot robot) {
         super(robot);
     }
@@ -30,14 +28,12 @@ public class MeleeRadar extends BaseRadar {
             // If radar stopped for some reason,
             // turn it around to find new target
             _robot.setTurnRadarRightRadians(Double.POSITIVE_INFINITY);
-        
-        // Track my own location
-        _myLocation =  new Point2D.Double(_robot.getX(), _robot.getY());   
     }
     
     @Override
     public void onScannedRobot(ScannedRobotEvent e) {   
         String enemyName = e.getName();
+        Point2D.Double myLocation =  new Point2D.Double(_robot.getX(), _robot.getY());
                             
         Enemy enemyInfo = Memory.enemies.get(enemyName);
         if (enemyInfo == null) {
@@ -53,7 +49,13 @@ public class MeleeRadar extends BaseRadar {
         if (enemyInfo.speed != 0)
             enemyInfo.direction = GeometryUtils.sign(enemyInfo.speed * FastTrig.sin(enemyInfo.heading - enemyInfo.bearing));
         enemyInfo.distance = e.getDistance();
-        enemyInfo.location = GeometryUtils.project(_myLocation, enemyInfo.bearing, enemyInfo.distance);
+        try {
+        	enemyInfo.location = GeometryUtils.project(myLocation, enemyInfo.bearing, enemyInfo.distance);
+        } catch (NullPointerException ex) {
+        	_robot.out.println(myLocation);
+        	_robot.out.println(enemyInfo.bearing);
+        	_robot.out.println(enemyInfo.distance);
+        }
         
         if (_robot.getOthers() <= Memory.enemies.size()) {
             Enumeration<Enemy> all = Memory.enemies.elements();
@@ -61,7 +63,7 @@ public class MeleeRadar extends BaseRadar {
             while (all.hasMoreElements()) {
                 Enemy tmp = all.nextElement();
                 if (tmp.ctime < oldestScan) {
-                    enemyInfo.bearing = GeometryUtils.absoluteAngle(_myLocation, tmp.location);
+                    enemyInfo.bearing = GeometryUtils.absoluteAngle(myLocation, tmp.location);
                     oldestScan = tmp.ctime;
                 }
             }

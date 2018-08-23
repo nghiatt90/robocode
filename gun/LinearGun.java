@@ -18,6 +18,8 @@ public class LinearGun extends BaseGun {
 		double absBearing = e.getBearingRadians() + _robot.getHeadingRadians();
         double gunOffset = absBearing - _robot.getGunHeadingRadians();
         _robot.setTurnGunRightRadians(Utils.normalRelativeAngle(gunOffset));
+        double firingPower = _robot.getOthers() > 3 ? 3 : Math.min(400 / e.getDistance(), _robot.getEnergy() / 20);
+        _robot.setFire(firingPower);
 	}
 
 }

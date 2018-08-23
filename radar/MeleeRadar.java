@@ -49,13 +49,7 @@ public class MeleeRadar extends BaseRadar {
         if (enemyInfo.speed != 0)
             enemyInfo.direction = GeometryUtils.sign(enemyInfo.speed * FastTrig.sin(enemyInfo.heading - enemyInfo.bearing));
         enemyInfo.distance = e.getDistance();
-        try {
-        	enemyInfo.location = GeometryUtils.project(myLocation, enemyInfo.bearing, enemyInfo.distance);
-        } catch (NullPointerException ex) {
-        	_robot.out.println(myLocation);
-        	_robot.out.println(enemyInfo.bearing);
-        	_robot.out.println(enemyInfo.distance);
-        }
+        enemyInfo.location = GeometryUtils.project(myLocation, enemyInfo.bearing, enemyInfo.distance);
         
         if (_robot.getOthers() <= Memory.enemies.size()) {
             Enumeration<Enemy> all = Memory.enemies.elements();
@@ -87,7 +81,7 @@ public class MeleeRadar extends BaseRadar {
     }
     
     @Override
-    public void onRobotDeath(RobotDeathEvent e){
+    public void onRobotDeath(RobotDeathEvent e) {
         Memory.enemies.remove(e.getName());
     }
 }

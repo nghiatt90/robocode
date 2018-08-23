@@ -26,11 +26,11 @@ public class Frank extends AdvancedRobot
 	protected static BaseGun _gun;
 	protected static BaseMovement _movement;
 	protected static BaseRadar _radar;
-	
+		
 	public Frank() {
 		_gun = new GuessFactorGun(this);
         _movement = new WallMovement(this);
-        _radar = new MeleeRadar(this);
+        _radar = new TrackingRadar(this);
 	}
 	
 	/**
@@ -46,10 +46,8 @@ public class Frank extends AdvancedRobot
         // Initiation
         initRound();
         
-        // Get the first view of the battle field
-        // turnRadarRightRadians(2*PI);
-        
-        turnLeft(getHeading() % 90);
+        if (getOthers() > 1)
+        	turnLeft(getHeading() % 90);
 		
 		// Generic behavior: move, scan, turn the gun, fire
         while(true) {
@@ -63,8 +61,6 @@ public class Frank extends AdvancedRobot
 		// Make sure the turns of the robot, gun and radar are independent
         setAdjustGunForRobotTurn(true);
         setAdjustRadarForGunTurn(true);
-        
-        isGunSwitched = false;
 	}
 	
 	public void onScannedRobot(ScannedRobotEvent e) {
@@ -76,5 +72,9 @@ public class Frank extends AdvancedRobot
 	public void onRobotDeath(RobotDeathEvent e) {
         if (e.getName() == target.name)
         	target.distance = 10000;
+	}
+	
+	public void onHitWall(HitWallEvent e) {
+		setBack(28);
 	}
 }

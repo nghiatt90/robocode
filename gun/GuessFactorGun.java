@@ -24,11 +24,16 @@ public class GuessFactorGun extends BaseGun {
         }
         
         Point2D myLocation = new Point2D.Double(_robot.getX(), _robot.getY());
-        double firingPower = 400.0 / enemyInfo.distance;
+        double firingPower = _robot.getOthers() > 3 ? 3 : Math.min(400 / e.getDistance(), _robot.getEnergy() / 20);
         Wave wave = new Wave(_robot, enemyInfo, myLocation, firingPower);
         wave.setSegmentations(enemyInfo.distance, enemyInfo.speed, enemyInfo.lastState.speed);
         
-        _robot.setTurnGunRightRadians(Utils.normalRelativeAngle(enemyInfo.bearing - _robot.getGunHeadingRadians() + wave.mostVisitedBearingOffset()));
+        _robot.setTurnGunRightRadians(Utils.normalRelativeAngle(
+        		enemyInfo.bearing
+        		- _robot.getGunHeadingRadians()
+        		+ wave.mostVisitedBearingOffset())
+        );
+        
         _robot.setFire(firingPower);
         if (_robot.getEnergy() >= 3.0) {
 			_robot.addCustomEvent(wave);
